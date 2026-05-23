@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABC | Dashboard de Avaliação Empresarial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  
+  <div class="mobile-topbar">
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h1>ABC</h1>
+        <span>by Rafacodehub</span>
+      </div>
+    </div>
+    <div class="mobile-actions">
+      <div class="notification-wrap mobile-notification">
+        <button class="notification-toggle" id="mobileNotificationToggle" type="button" aria-label="Abrir notificações">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <i>3</i>
+        </button>
+      </div>
+      <button class="theme-toggle mobile-theme" id="mobileThemeToggle" type="button" aria-label="Alternar tema">☾</button>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="app">
+    
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-collapse" id="sidebarCollapse" type="button" aria-label="Recolher menu">‹</button>
+      <div class="brand">
+        <div class="brand-icon">A</div>
+        <div>
+          <h1>ABC</h1>
+          <span>by Rafacodehub</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="#" data-page="overview"><span class="nav-icon">▣</span><span class="nav-label">Visão Geral</span></a>
+        <a href="#" data-page="quarter"><span class="nav-icon">◈</span><span class="nav-label">Trimestre</span></a>
+        <a href="#" data-page="expenses"><span class="nav-icon">◉</span><span class="nav-label">Despesas / Custos</span></a>
+        <a href="#" data-page="competition"><span class="nav-icon">◎</span><span class="nav-label">Concorrência</span></a>
+        <a href="#" data-page="reports"><span class="nav-icon">□</span><span class="nav-label">Relatórios</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-tools">
+          <div class="notification-wrap">
+            <button class="notification-toggle" id="notificationToggle" type="button" aria-label="Abrir notificações">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <i>3</i>
+            </button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema">☾</button>
+        </div>
+        <div class="sidebar-card">
+          <small>Status Geral</small>
+          <strong>Empresa saudável</strong>
+          <p>Receita, lucro e margem acima da meta anual.</p>
+          <div class="status-dot"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="page active" id="page-overview">
+      <header class="topbar">
+        <div class="topbar-left">
+          <small>Avaliação 2025</small>
+          <h2>Visão Consolidada ABC</h2>
+        </div>
+        <div class="actions">
+          <button class="btn-outline" id="exportBtn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar
+          </button>
+          <button class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo relatório
+          </button>
+        </div>
+      </header>
+
+      
+      <section class="summary-grid">
+        <article class="metric-card" style="--delay:0s">
+          <div class="metric-top">
+            <span>Receita Líquida</span>
+            <b class="badge-positive">↑ 15,7%</b>
+          </div>
+          <h3>R$ 154,2 Mi</h3>
+          <p>Meta anual: R$ 145 Mi</p>
+          <div class="metric-bar"><div class="metric-bar-fill" style="width:106%"></div></div>
+        </article>
+
+        <article class="metric-card" style="--delay:.08s">
+          <div class="metric-top">
+            <span>Lucro Operacional</span>
+            <b class="badge-positive">↑ 21,4%</b>
+          </div>
+          <h3>R$ 28,7 Mi</h3>
+          <p>Margem operacional de 18,6%</p>
+          <div class="metric-bar"><div class="metric-bar-fill" style="width:86%"></div></div>
+        </article>
+
+        <article class="metric-card" style="--delay:.16s">
+          <div class="metric-top">
+            <span>Market Share</span>
+            <b class="badge-positive">↑ 2,8 p.p.</b>
+          </div>
+          <h3>23,7%</h3>
+          <p>Avanço frente ao principal concorrente</p>
+          <div class="metric-bar"><div class="metric-bar-fill" style="width:72%"></div></div>
+        </article>
+
+        <article class="metric-card" style="--delay:.24s">
+          <div class="metric-top">
+            <span>Eficiência</span>
+            <b class="badge-neutral">Estável</b>
+          </div>
+          <h3>72%</h3>
+          <p>Índice geral de performance</p>
+          <div class="metric-bar"><div class="metric-bar-fill" style="width:72%"></div></div>
+        </article>
+      </section>
+
+      
+      <section class="dashboard-grid">
+
+        
+        <article class="panel revenue-panel">
+          <div class="panel-header">
+            <div>
+              <small>Performance</small>
+              <h3>Evolução mensal da receita</h3>
+            </div>
+            <span class="unit-tag">R$ milhões</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="lineChart"></canvas>
+          </div>
+        </article>
+
+        
+        <article class="panel score-panel">
+          <div class="panel-header">
+            <div>
+              <small>Avaliação</small>
+              <h3>Score Executivo</h3>
+            </div>
+          </div>
+          <div class="score-circle">
+            <canvas id="scoreChart"></canvas>
+            <div class="score-label">
+              <strong>86</strong>
+              <span>/100</span>
+            </div>
+          </div>
+          <ul class="score-list">
+            <li>
+              <span>Rentabilidade</span>
+              <div class="score-row-right">
+                <div class="mini-bar"><div style="width:92%"></div></div>
+                <b>92%</b>
+              </div>
+            </li>
+            <li>
+              <span>Crescimento</span>
+              <div class="score-row-right">
+                <div class="mini-bar"><div style="width:84%"></div></div>
+                <b>84%</b>
+              </div>
+            </li>
+            <li>
+              <span>Mercado</span>
+              <div class="score-row-right">
+                <div class="mini-bar"><div style="width:78%"></div></div>
+                <b>78%</b>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        
+        <article class="panel table-panel">
+          <div class="panel-header">
+            <div>
+              <small>Financeiro</small>
+              <h3>Relatório por área</h3>
+            </div>
+            <a href="#" class="link-btn">Ver tudo →</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Área</th>
+                  <th>Status</th>
+                  <th>Receita</th>
+                  <th>Margem</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="area-name">Comercial</span></td>
+                  <td><span class="badge success">Acima da meta</span></td>
+                  <td>R$ 66 Mi</td>
+                  <td class="margin-positive">19,8%</td>
+                </tr>
+                <tr>
+                  <td><span class="area-name">Marketing</span></td>
+                  <td><span class="badge success">Forte</span></td>
+                  <td>R$ 15,6 Mi</td>
+                  <td class="margin-positive">4,7× ROI</td>
+                </tr>
+                <tr>
+                  <td><span class="area-name">Operações</span></td>
+                  <td><span class="badge warning">Atenção</span></td>
+                  <td>R$ 42 Mi</td>
+                  <td class="margin-warn">14,2%</td>
+                </tr>
+                <tr>
+                  <td><span class="area-name">Expansão</span></td>
+                  <td><span class="badge neutral">Planejado</span></td>
+                  <td>R$ 30,6 Mi</td>
+                  <td>17,1%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        
+        <article class="panel compare-panel">
+          <div class="panel-header">
+            <div>
+              <small>Mercado</small>
+              <h3>ABC x CONCORRENTE A</h3>
+            </div>
+          </div>
+          <div class="compare-list">
+            <div class="compare-legend">
+              <span><i class="legend-dot abc"></i> ABC</span>
+              <span><i class="legend-dot competitor"></i> CONCORRENTE A</span>
+            </div>
+
+            <div class="compare-item">
+              <div class="compare-meta">
+                <span>Vendas</span>
+              </div>
+              <div class="split-track" title="ABC 55% x CONCORRENTE A 45%">
+                <div class="split-abc" style="width:55%">55%</div>
+                <div class="split-competitor" style="width:45%">45%</div>
+              </div>
+            </div>
+
+            <div class="compare-item">
+              <div class="compare-meta">
+                <span>Lucro</span>
+              </div>
+              <div class="split-track" title="ABC 62% x CONCORRENTE A 38%">
+                <div class="split-abc" style="width:62%">62%</div>
+                <div class="split-competitor" style="width:38%">38%</div>
+              </div>
+            </div>
+
+            <div class="compare-item">
+              <div class="compare-meta">
+                <span>Market Share</span>
+              </div>
+              <div class="split-track" title="ABC 58% x CONCORRENTE A 42%">
+                <div class="split-abc" style="width:58%">58%</div>
+                <div class="split-competitor" style="width:42%">42%</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      </section>
+
+      <section class="page" id="page-quarter">
+        <header class="topbar">
+          <div class="topbar-left">
+            <small>Avaliação 2025</small>
+            <h2>Análise por Trimestre</h2>
+          </div>
+          <div class="actions">
+            <div class="quarter-dropdown" id="quarterDropdown">
+              <button class="quarter-trigger quarter-trigger-premium" id="quarterTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <strong id="quarterTriggerLabel">1º Trimestre</strong>
+              </button>
+              <div class="quarter-menu" id="quarterMenu" role="listbox">
+                <button type="button" data-quarter="q1" class="active">
+                  <strong>1º Trimestre</strong>
+                  <span>Jan • Fev • Mar</span>
+                </button>
+                <button type="button" data-quarter="q2">
+                  <strong>2º Trimestre</strong>
+                  <span>Abr • Mai • Jun</span>
+                </button>
+                <button type="button" data-quarter="q3">
+                  <strong>3º Trimestre</strong>
+                  <span>Jul • Ago • Set</span>
+                </button>
+                <button type="button" data-quarter="q4">
+                  <strong>4º Trimestre</strong>
+                  <span>Out • Nov • Dez</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="summary-grid quarter-kpis">
+          <article class="metric-card">
+            <div class="metric-top"><span>Receita do Trimestre</span><b class="badge-positive" id="qRevenueBadge">↑ 12,4%</b></div>
+            <h3 id="qRevenue">R$ 34,6 Mi</h3>
+            <p id="qRevenueText">Acima da meta projetada</p>
+            <div class="metric-bar"><div class="metric-bar-fill" id="qRevenueBar" style="width:88%"></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span>Margem Média</span><b class="badge-positive" id="qMarginBadge">↑ 4,1%</b></div>
+            <h3 id="qMargin">18,9%</h3>
+            <p>Rentabilidade consolidada no período</p>
+            <div class="metric-bar"><div class="metric-bar-fill" id="qMarginBar" style="width:76%"></div></div>
+          </article>
+          <article class="metric-card attention-card" id="qAlertCard">
+            <div class="metric-top"><span>Indicador de Atenção</span><b class="badge-danger" id="qAlertBadge">⚠ Operações</b></div>
+            <h3 id="qAlertValue">14,2%</h3>
+            <p id="qAlertText">Margem abaixo do objetivo em Operações</p>
+            <div class="metric-bar danger"><div class="metric-bar-fill danger-fill" id="qAlertBar" style="width:48%"></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span>Eficiência</span><b class="badge-neutral" id="qEfficiencyBadge">Estável</b></div>
+            <h3 id="qEfficiency">74%</h3>
+            <p>Índice operacional trimestral</p>
+            <div class="metric-bar"><div class="metric-bar-fill" id="qEfficiencyBar" style="width:74%"></div></div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid quarter-grid">
+          <article class="panel trend-panel">
+            <div class="panel-header">
+              <div><small>Tendência</small><h3>Crescimento x Meta Projetada</h3></div>
+              <span class="unit-tag">R$ milhões</span>
+            </div>
+            <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+          </article>
+
+          <article class="panel heatmap-panel">
+            <div class="panel-header">
+              <div><small>Heatmap</small><h3>Performance por área</h3></div>
+              <span class="unit-tag" id="heatmapQuarterLabel">1º tri</span>
+            </div>
+            <div class="heatmap" id="heatmapGrid"></div>
+            <p class="panel-note">Passe o mouse nos blocos para destacar os valores. Vermelho indica atenção.</p>
+          </article>
+        </section>
+      </section>
+
+
+      <section class="page" id="page-expenses">
+        <header class="topbar">
+          <div class="topbar-left">
+            <small>Avaliação 2025</small>
+            <h2>Despesas / Custos</h2>
+          </div>
+          <div class="actions">
+            <span class="unit-tag">Alertas por criticidade</span>
+          </div>
+        </header>
+
+        <section class="smart-grid">
+          <article class="smart-card critical">
+            <span>Crítico</span>
+            <strong>Operações acima do limite</strong>
+            <p>Custos operacionais atingiram R$ 18,4 Mi, 12% acima do orçamento.</p>
+          </article>
+          <article class="smart-card warning">
+            <span>Atenção</span>
+            <strong>Marketing crescendo rápido</strong>
+            <p>Investimento subiu 8% no trimestre; acompanhar ROI semanalmente.</p>
+          </article>
+          <article class="smart-card ok">
+            <span>OK</span>
+            <strong>Comercial dentro da meta</strong>
+            <p>Despesas comerciais controladas e 4% abaixo do orçamento.</p>
+          </article>
+        </section>
+
+        <section class="dashboard-grid expenses-grid">
+          <article class="panel expense-bars-panel">
+            <div class="panel-header">
+              <div><small>Custos por área</small><h3>Onde a empresa está gastando mais</h3></div>
+              <span class="unit-tag">R$ milhões</span>
+            </div>
+            <div class="chart-wrap"><canvas id="expenseBarChart"></canvas></div>
+          </article>
+
+          <article class="panel expense-donut-panel">
+            <div class="panel-header">
+              <div><small>Criticidade</small><h3>Distribuição dos alertas</h3></div>
+            </div>
+            <div class="chart-wrap"><canvas id="expenseDonutChart"></canvas></div>
+          </article>
+
+          <article class="panel expense-table-panel">
+            <div class="panel-header">
+              <div><small>Detalhamento</small><h3>Mapa de despesas e ações sugeridas</h3></div>
+              <span class="unit-tag">vermelho crítico • laranja atenção • verde ok</span>
+            </div>
+            <div class="table-wrap">
+              <table class="database-table">
+                <thead><tr><th>Área</th><th>Despesa</th><th>Orçamento</th><th>Variação</th><th>Status</th><th>Ação</th></tr></thead>
+                <tbody id="expensesTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </section>
+
+
+      <section class="page" id="page-competition">
+        <header class="topbar">
+          <div class="topbar-left">
+            <small>Avaliação 2025</small>
+            <h2>Painel de Concorrência</h2>
+          </div>
+          <div class="actions">
+            <span class="unit-tag">ABC x Concorrentes A, B, C e D</span>
+          </div>
+        </header>
+
+        <section class="summary-grid competition-kpis">
+          <article class="metric-card">
+            <div class="metric-top"><span>Posição ABC</span><b class="badge-positive">#1</b></div>
+            <h3>58%</h3>
+            <p>Índice competitivo consolidado</p>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:92%"></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span>Média do Mercado</span><b class="badge-neutral">Benchmark</b></div>
+            <h3>47%</h3>
+            <p>Referência geral dos concorrentes</p>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:74%"></div></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span>Gap Competitivo</span><b class="badge-positive">+11 p.p.</b></div>
+            <h3>ABC acima</h3>
+            <p>Vantagem frente à média do mercado</p>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:84%"></div></div>
+          </article>
+          <article class="metric-card attention-card">
+            <div class="metric-top"><span>Maior ameaça</span><b class="badge-danger">Concorrente A</b></div>
+            <h3>52%</h3>
+            <p>Concorrente mais próximo da ABC</p>
+            <div class="metric-bar danger"><div class="metric-bar-fill danger-fill" style="width:64%"></div></div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid competition-grid">
+          <article class="panel competition-chart-panel">
+            <div class="panel-header">
+              <div><small>Benchmark</small><h3>Comparativo de desempenho</h3></div>
+              <span class="unit-tag">índice %</span>
+            </div>
+            <div class="chart-wrap"><canvas id="competitionBarChart"></canvas></div>
+            <div class="compact-legend competition-legend">
+              <span><i style="background:#00b894"></i>ABC</span>
+              <span><i style="background:#3f7cff"></i>Conc. A</span>
+              <span><i style="background:#ff8c20"></i>Conc. B</span>
+              <span><i style="background:#8b5cf6"></i>Conc. C</span>
+              <span><i style="background:#e05252"></i>Conc. D</span>
+              <span><i style="background:#94a3b8"></i>Média</span>
+            </div>
+          </article>
+
+          <article class="panel ranking-panel">
+            <div class="panel-header">
+              <div><small>Ranking</small><h3>Posição competitiva</h3></div>
+              <span class="unit-tag">2025</span>
+            </div>
+            <div class="ranking-list">
+              <div class="rank-item top" data-name="ABC" role="button" tabindex="0"><b>1</b><span>ABC</span><strong>58%</strong></div>
+              <div class="rank-item" data-name="Concorrente A" role="button" tabindex="0"><b>2</b><span>Concorrente A</span><strong>52%</strong></div>
+              <div class="rank-item" data-name="Concorrente B" role="button" tabindex="0"><b>3</b><span>Concorrente B</span><strong>48%</strong></div>
+              <div class="rank-item" data-name="Concorrente C" role="button" tabindex="0"><b>4</b><span>Concorrente C</span><strong>44%</strong></div>
+              <div class="rank-item" data-name="Concorrente D" role="button" tabindex="0"><b>5</b><span>Concorrente D</span><strong>39%</strong></div>
+            </div>
+          </article>
+
+          <article class="panel benchmark-panel">
+            <div class="panel-header">
+              <div><small>Média do mercado</small><h3>Benchmark por indicador</h3></div>
+            </div>
+            <div class="benchmark-list">
+              <div><span>Receita</span><div class="benchmark-track"><i style="width:66%"></i><b>ABC 66%</b></div><small>Mercado: 52%</small></div>
+              <div><span>Lucro</span><div class="benchmark-track"><i style="width:62%"></i><b>ABC 62%</b></div><small>Mercado: 48%</small></div>
+              <div><span>Market Share</span><div class="benchmark-track"><i style="width:58%"></i><b>ABC 58%</b></div><small>Mercado: 47%</small></div>
+              <div><span>Eficiência</span><div class="benchmark-track"><i style="width:72%"></i><b>ABC 72%</b></div><small>Mercado: 61%</small></div>
+            </div>
+          </article>
+
+          <article class="panel radar-panel">
+            <div class="panel-header">
+              <div><small>Radar competitivo</small><h3>Forças por dimensão</h3></div>
+              <span class="unit-tag">ABC x mercado</span>
+            </div>
+            <div class="chart-wrap"><canvas id="competitionRadarChart"></canvas></div>
+          </article>
+
+          <article class="panel dominance-panel">
+            <div class="panel-header">
+              <div><small>Market dominance</small><h3>Domínio por competidor</h3></div>
+              <span class="unit-tag">share competitivo</span>
+            </div>
+            <div class="chart-wrap"><canvas id="marketDominanceChart"></canvas></div>
+          </article>
+
+          <article class="panel sector-share-panel">
+            <div class="panel-header">
+              <div><small>Share por setor</small><h3>ABC por segmento</h3></div>
+              <span class="unit-tag">participação %</span>
+            </div>
+            <div class="sector-share-list">
+              <div><span>Varejo</span><div class="sector-track"><i style="width:62%"></i></div><b>62%</b></div>
+              <div><span>Serviços</span><div class="sector-track"><i style="width:56%"></i></div><b>56%</b></div>
+              <div><span>Digital</span><div class="sector-track"><i style="width:68%"></i></div><b>68%</b></div>
+              <div><span>Corporativo</span><div class="sector-track"><i style="width:51%"></i></div><b>51%</b></div>
+            </div>
+          </article>
+
+          <article class="panel history-panel">
+            <div class="panel-header">
+              <div><small>Crescimento histórico</small><h3>Evolução competitiva</h3></div>
+              <span class="unit-tag">2021-2025</span>
+            </div>
+            <div class="chart-wrap"><canvas id="competitionHistoryChart"></canvas></div>
+          </article>
+        </section>
+      </section>
+
+
+      <section class="page" id="page-reports">
+        <header class="topbar">
+          <div class="topbar-left">
+            <small>Avaliação 2025</small>
+            <h2>Relatórios Executivos</h2>
+          </div>
+          <div class="actions">
+            <button class="btn-outline" id="exportPdfBtn" type="button">Exportar PDF</button>
+            <button class="btn-primary" id="exportExcelBtn" type="button">Exportar Excel</button>
+          </div>
+        </header>
+
+        <section class="smart-grid report-smart-grid">
+          <article class="smart-card warning"><span>Atenção</span><strong>Operações está 1,8 p.p. abaixo da meta</strong><p>Revisar custos variáveis e renegociar fornecedores.</p></article>
+          <article class="smart-card ok"><span>Oportunidade</span><strong>Comercial superou a meta em R$ 6 Mi</strong><p>Manter canal de vendas e replicar estratégia para expansão.</p></article>
+          <article class="smart-card critical"><span>Crítico</span><strong>Custos pressionam margem final</strong><p>Risco de queda no lucro se o ritmo continuar no próximo trimestre.</p></article>
+        </section>
+
+        <section class="report-layout report-layout-wide" id="reportContent">
+          <article class="panel report-summary">
+            <div class="panel-header">
+              <div><small>Resumo Executivo</small><h3>Relatório consolidado ABC</h3></div>
+              <span class="unit-tag">Banco de dados 2025</span>
+            </div>
+            <p>Base consolidada com indicadores financeiros, operacionais, comerciais e alertas de gestão. Use este painel como central de consulta antes de exportar PDF ou Excel.</p>
+            <div class="report-cards">
+              <div><strong>R$ 154,2 Mi</strong><span>Receita líquida anual</span></div>
+              <div><strong>R$ 28,7 Mi</strong><span>Lucro operacional</span></div>
+              <div><strong>23,7%</strong><span>Market share</span></div>
+              <div><strong>86/100</strong><span>Score executivo</span></div>
+            </div>
+          </article>
+
+          <article class="panel ai-executive-panel enterprise-panel">
+            <div class="panel-header">
+              <div><small>IA Executiva</small><h3>Análise automática dos dados</h3></div>
+              <span class="unit-tag" id="aiStatusTag">offline-ready</span>
+            </div>
+            <div class="ai-grid" id="aiInsightsGrid">
+              <div class="ai-card loading-shimmer"><b>Analisando receita...</b><span>Carregando leitura executiva.</span></div>
+              <div class="ai-card loading-shimmer"><b>Avaliando riscos...</b><span>Verificando desvios por área.</span></div>
+              <div class="ai-card loading-shimmer"><b>Benchmark...</b><span>Comparando mercado e concorrentes.</span></div>
+            </div>
+          </article>
+
+          <article class="panel backend-panel enterprise-panel">
+            <div class="panel-header">
+              <div><small>Banco de Dados</small><h3>Conexão enterprise</h3></div>
+              <span class="unit-tag" id="backendStatus">verificando...</span>
+            </div>
+            <p class="backend-note">Backend Node.js + SQLite pronto para salvar uploads, relatórios, histórico, usuários e exportações reais.</p>
+            <div class="backend-actions">
+              <button class="btn-outline" id="syncBackendBtn" type="button">Sincronizar dados</button>
+              <button class="btn-primary" id="downloadAdvancedTemplateBtn" type="button">Modelo completo</button>
+            </div>
+          </article>
+
+          <article class="panel upload-panel">
+            <div class="panel-header">
+              <div><small>Upload de dados</small><h3>Atualizar dashboard via Excel / CSV</h3></div>
+              <span class="unit-tag">modelo ABC</span>
+            </div>
+            <p class="upload-note">Envie uma planilha no modelo padrão para atualizar automaticamente KPIs, gráficos, benchmark e base de relatórios.</p>
+            <div class="upload-box" id="uploadBox">
+              <input id="dataUploadInput" type="file" accept=".xlsx,.xls,.csv" hidden>
+              <button class="btn-primary" id="chooseUploadBtn" type="button">Selecionar Excel / CSV</button>
+              <button class="btn-outline" id="downloadTemplateBtn" type="button">Baixar modelo</button>
+              <span id="uploadStatus">Nenhum arquivo enviado</span>
+            </div>
+            <div class="template-cols">
+              <b>Colunas do modelo:</b> Mês, Receita ABC, Receita Concorrente A, Área, Indicador, Trimestre, Valor, Meta, Status, Concorrente, ROI, Receita Benchmark, Crescimento, Eficiência, Market Share, Despesa, Orçamento, Variação, Ação
+            </div>
+          </article>
+
+          <article class="panel report-table-panel">
+            <div class="panel-header">
+              <div><small>Base Analítica</small><h3>Banco de dados executivo</h3></div>
+              <span class="unit-tag" id="reportCountLabel">128 registros</span>
+            </div>
+            <div class="report-controls">
+              <input id="reportSearch" type="search" placeholder="Buscar por área, indicador, status ou trimestre...">
+              <select id="areaFilter">
+                <option value="">Todas as áreas</option>
+                <option>Comercial</option><option>Marketing</option><option>Operações</option><option>Expansão</option><option>Custos</option><option>Financeiro</option><option>Atendimento</option><option>Produto</option>
+              </select>
+              <select id="statusFilter">
+                <option value="">Todos os status</option>
+                <option>OK</option><option>Atenção</option><option>Crítico</option><option>Acima</option><option>Planejado</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table class="database-table sortable-table">
+                <thead>
+                  <tr>
+                    <th data-sort="id">ID</th>
+                    <th data-sort="area">Área</th>
+                    <th data-sort="indicador">Indicador</th>
+                    <th data-sort="trimestre">Trimestre</th>
+                    <th data-sort="valorNum">Valor</th>
+                    <th data-sort="metaNum">Meta</th>
+                    <th data-sort="status">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="reportTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel report-insights">
+            <div class="panel-header">
+              <div><small>Insights</small><h3>Resumo automático</h3></div>
+            </div>
+            <div class="insight-list clean-insights">
+              <div><b><i class="insight-icon positive"></i>Crescimento saudável</b><span>Receita anual superou a meta em R$ 9,2 Mi.</span></div>
+              <div><b><i class="insight-icon warning"></i>Atenção operacional</b><span>Operações está abaixo da margem desejada e precisa de revisão de custos.</span></div>
+              <div><b><i class="insight-icon neutral"></i>Competitividade</b><span>Market share avançou 2,8 p.p. frente ao concorrente.</span></div>
+              <div><b><i class="insight-icon action"></i>Próxima ação</b><span>Priorizar plano de eficiência operacional no próximo trimestre.</span></div>
+            </div>
+          </article>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="import-modal" id="importPreviewModal" aria-hidden="true">
+    <div class="import-modal-card">
+      <div class="import-modal-head">
+        <div>
+          <small>Importação validada</small>
+          <h3>Preview antes de salvar</h3>
+        </div>
+        <button id="closeImportPreview" type="button">×</button>
+      </div>
+      <div class="import-validation" id="importValidationSummary">Aguardando arquivo...</div>
+      <div class="table-wrap import-preview-wrap">
+        <table class="database-table">
+          <thead id="importPreviewHead"></thead>
+          <tbody id="importPreviewBody"></tbody>
+        </table>
+      </div>
+      <div class="import-modal-actions">
+        <button class="btn-outline" id="cancelBackendImport" type="button">Cancelar</button>
+        <button class="btn-primary" id="commitBackendImport" type="button">Salvar no banco</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="exportToast">preparando download</div>
+  <div class="notification-panel" id="notificationPanel" aria-hidden="true">
+    <div class="notification-head">
+      <strong>Notificações</strong>
+      <span>3 novas</span>
+    </div>
+    <button class="notification-read" id="markNotificationsRead" type="button">Marcar como lida</button>
+    <div class="notification-item success"><b>Meta atingida</b><small>Receita anual acima da meta projetada.</small></div>
+    <div class="notification-item info"><b>Novo benchmark</b><small>ABC segue à frente da média do mercado.</small></div>
+    <div class="notification-item success"><b>Exportação concluída</b><small>Relatórios prontos para PDF e Excel.</small></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
