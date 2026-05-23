@@ -1,51 +1,36 @@
-# Dashboard ABC Enterprise — V14
+# Dashboard Analytics
 
-## Como rodar
+Modern enterprise dashboard with interactive analytics, animated KPIs and executive insights.
+
+## Features
+
+- Animated KPIs
+- Interactive charts
+- AI Insights
+- Market benchmark
+- Advanced reports
+- Enterprise UI
+- Responsive layout
+- Smooth micro animations
+
+## Technologies
+
+- HTML5
+- CSS3
+- JavaScript
+- Chart.js
+
+## Live Preview
+
+https://rafacodehub.github.io/dashboard-analytics/
+
+## Installation
 
 ```bash
 npm install
 npm start
 ```
 
-Depois abra:
+## Author
 
-```bash
-http://localhost:3000
-```
-
-## Banco de dados
-
-O SQLite será criado automaticamente em:
-
-```bash
-backend/data/dashboard.sqlite
-```
-
-## Principais endpoints
-
-```txt
-GET  /api/health
-POST /api/sync
-POST /api/import/preview
-POST /api/import/commit
-POST /api/import/rollback
-GET  /api/reports
-GET  /api/ai/insights
-POST /api/export/pdf
-GET  /api/export/verify/:id
-```
-
-## Modelo Excel
-
-No painel Relatórios, use o botão **Modelo completo** ou **Baixar modelo**.
-O arquivo terá abas para:
-
-- KPIs
-- Mensal
-- Relatórios
-- Benchmark
-- Despesas
-
-## Observação
-
-Este projeto usa SQLite por padrão para facilitar testes locais. Para produção, a camada `backend/db.js` pode ser trocada por PostgreSQL, MySQL, Supabase ou Firebase.
+Developed by RafaCodeHub
